@@ -152,6 +152,9 @@ build()
       cp "${PREFIX}/lib/libssl.a" "${SCRIPT_DIR}/${TYPE}/lib/libssl.a"
    fi
 
+   cp "${PREFIX}/lib/libcrypto.a" "${SCRIPT_DIR}/${TYPE}/${OS}/${ARCH}/lib/libcrypto.a"
+   cp "${PREFIX}/lib/libssl.a" "${SCRIPT_DIR}/${TYPE}/${OS}/${ARCH}/lib/libssl.a"
+
    mv ${PREFIX}/include/openssl/opensslconf.h ${PREFIX}/include/openssl/opensslconf-${ARCH}.h
 
    rm -rf "${SRC_DIR}"
@@ -188,8 +191,9 @@ build_ios() {
    local TMP_DIR=$( mktemp -d )
 
    # Clean up whatever was left from our previous build
-   rm -rf ${SCRIPT_DIR}/{ios/include,ios/lib}
+   rm -rf ${SCRIPT_DIR}/ios
    mkdir -p ${SCRIPT_DIR}/{ios/include,ios/lib}
+   mkdir -p ${SCRIPT_DIR}/ios/{iPhoneSimulator/{i386,x86_64,arm64},iPhoneOS/{armv7,armv7s,arm64}}/lib}
 
    build "i386" "iPhoneSimulator" ${TMP_DIR} "ios"
    build "x86_64" "iPhoneSimulator" ${TMP_DIR} "ios"
